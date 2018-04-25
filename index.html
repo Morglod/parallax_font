@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="manifest" href="manifest.json">
+        <link rel="stylesheet" type="text/css" href="styles.css?334" />
+        <script>
+            var foreground;
+            var log;
+            var textCount = 20;
+
+            function handleOrientation(event) {
+                var absolute = event.absolute;
+                var alpha    = event.alpha; // z
+                var beta     = event.beta; // x
+                var gamma    = event.gamma; // y
+
+                log.innerText = `${alpha} ${beta} ${gamma}`;
+
+                foreground.style.setProperty('--fg-rotationX', (-beta * 0.2) + 'deg');
+                foreground.style.setProperty('--fg-rotationY', (gamma * 0.2) + 'deg');
+            }
+            window.onload = function() {
+                window.addEventListener("deviceorientation", handleOrientation, true);
+                foreground = document.querySelector('.foreground');
+                log = document.querySelector('.log');
+                var text = document.querySelector('.text').innerHTML;
+                
+                for(var i = 0; i < textCount; ++i) {
+                    var div = document.createElement('div');
+                    div.className = "text text"+(i+1);
+                    div.innerHTML = text;
+                    foreground.appendChild(div);
+                }
+
+                for(var i = 0; i < 50; ++i) {
+                    var div = document.createElement('div');
+                    div.className = "text hello_world hello_world"+(i+1);
+                    div.innerHTML = "Hello🌎world!🌎";
+                    foreground.appendChild(div);
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <div class="background"></div>
+        <div class="foreground">
+            <div class="text text0">
+                Lorem ipsum 😱 😳 🤪 😵 dolor sit 👍🏻👍🏻👍🏻 amet consectetur, 💣💣💣adipisicing elit. Perferendis illum ipsam, tempore itaque eaque cumque, obcaecati consequatur doloribus aspernatur, quibusdam odit in animi a magnam. Voluptatibus dolores fugiat similique nostrum!
+            </div>
+        </div>
+        <div class="log" hidden></div>
+    </body>
+</html>

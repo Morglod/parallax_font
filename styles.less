@@ -1,0 +1,82 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+
+    -webkit-perspective: 2000;
+    perspective: 2000;
+    -webkit-perspective-origin: 50% 50%;
+    perspective-origin: 50% 50%;
+}
+
+.background {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+.foreground {
+    position: relative;
+    --fg-rotationX: 0deg;
+    --fg-rotationY: 0deg;
+
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+
+    background: white;
+
+    transform: rotateX(var(--fg-rotationX)) rotateY(var(--fg-rotationY));
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+}
+
+.text {
+    color: rgb(31, 31, 31);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 3rem;
+    position: absolute;
+    text-shadow: 1px 1px 20px rgba(0, 0, 0, 0.16);
+    margin: 5rem;
+    margin-top: 38rem;
+    user-select: none;
+}
+
+.text0 {
+    z-index: 0;
+    text-shadow: 1px 1px 20px rgb(0, 0, 0);
+}
+
+.hello_world {
+    margin-top: 50rem;
+    left: 1%;
+}
+
+.generate-text(@class, @n, @heightStep: 5px, @fromColor: rgb(31, 31, 31), @toColor: white, @i: 1) when (@i <= @n) {
+    .@{class}@{i} {
+        z-index: @i;
+        transform: translateZ(@i * @heightStep);
+        color: mix(@fromColor, @toColor, (@i / @n * 100%));
+        & when (@i = @n) {
+            user-select: initial;
+        }
+    }
+    .generate-text(@class, @n, @heightStep, @fromColor, @toColor, (@i + 1));
+}
+
+.generate-text(text, 20, 5px, rgb(150, 150, 150), rgb(22, 22, 22));
+.generate-text(hello_world, 50, 5px, rgb(150, 150, 150), rgb(22, 22, 22));
+
+.log {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 3em;
+}
